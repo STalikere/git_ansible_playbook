@@ -1,0 +1,3 @@
+ansible-playbook playbook.yml --skip-tags "debug,git_debug"  skip tags
+ansible-playbook playbook.yml --tags "debug,git_debug" Display on those tags
+ansible-playbook playbook.yml -vvv  Display the logs  verbose

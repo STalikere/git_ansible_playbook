@@ -1,0 +1,40 @@
+---
+- name: Installing Packages
+  hosts: all
+  become: true
+  tasks:
+    - name: Installing GIT
+      apt:
+        name: git
+        state: present
+      when: ansible_os_family == "Debian"
+      register: git_out
+    - name: debug
+      debug:
+        var: git_out
+      tags:
+        git_debug
+    - name: Installing Maven
+      yum:
+        name: maven
+        state: latest
+      when: ansible_os_family == "RedHat"  
+      register:
+        output
+    - name: debug
+      debug: 
+        var: output
+      tags:
+        - debug
+    - name: Copy file to Ubuntu
+      template:
+        src: copy.j2
+        dest: /home/ubuntu/
+      when: ansible_os_family == "Debian"
+
+    - name: Copy file to Redhat
+      template:
+        src: copy.j2
+        dest: /home/ec2-user/
+      when: ansible_os_family == "RedHat"
+
